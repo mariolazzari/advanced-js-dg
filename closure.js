@@ -35,3 +35,37 @@ res();
 // global scope x actual valur
 console.log("Global scope x:", x);
 //console.log("Local scope myValue:", myValue); => ref error
+
+// IIFE
+const privateCounter = (() => {
+  let counter = 0;
+  console.log("count init:", counter);
+
+  return () => {
+    counter += 1;
+    console.log("count inc:", counter);
+  };
+})();
+
+privateCounter();
+privateCounter();
+privateCounter();
+
+const credits = (num => {
+  let credits = num;
+  console.log("Initial credits", credits);
+
+  return () => {
+    credits -= 1;
+    if (credits > 0) {
+      console.log("Credits left", credits);
+    } else {
+      console.log("No credits left");
+    }
+  };
+})(3);
+
+credits();
+credits();
+credits();
+credits();
