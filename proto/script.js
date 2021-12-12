@@ -54,3 +54,51 @@ console.log("for in -> for all objects");
 for (const key in luxoryCar) {
   console.log(key);
 }
+
+// Object constructor
+function Animal(species) {
+  this.species = species;
+  this.eats = true;
+}
+
+// add method
+Animal.prototype.walks = function () {
+  return `${this.species} walks`;
+};
+
+const bear = new Animal("bear");
+console.log(bear.species);
+console.log(bear.walks());
+console.log(bear.__proto__);
+console.log(bear.__proto__ === Animal.prototype);
+
+// classes
+class Vehicle {
+  constructor() {
+    this.wheels = 4;
+    this.motorized = true;
+  }
+
+  ready() {
+    console.log("ready to go");
+  }
+}
+
+class Motorcycle extends Vehicle {
+  constructor() {
+    super();
+    this.wheels = 2;
+  }
+
+  wheelie() {
+    console.log("wheelie");
+  }
+}
+
+const bike = new Motorcycle();
+console.log(bike);
+console.log(bike.wheelie());
+console.log(bike.ready());
+
+const truck = new Vehicle();
+console.log(truck);
