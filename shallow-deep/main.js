@@ -73,4 +73,39 @@ Object.freeze(scoreObj);
 scoreObj.third.a = 9;
 console.log(scoreObj); // mutated!
 
-// Deep copy
+// Deep copy (not always...)
+const newScoreObj = JSON.parse(JSON.stringify(scoreObj));
+console.log("newScoreObj", newScoreObj);
+console.log("newScoreObj === scoreObj", newScoreObj === scoreObj);
+
+// deep clone object
+const deepClone = obj => {
+  if (!obj || typeof obj !== "object") {
+    return obj;
+  }
+
+  const newObj = Array.isArray(obj) ? [] : {};
+
+  for (let key in obj) {
+    const value = obj[key];
+    newObj[key] = deepClone(value);
+  }
+
+  return Object.assign(Object.create(Object.getPrototypeOf(obj)), obj);
+};
+
+const newScoreArray = deepClone(scoreObj);
+console.log("newScoreArray", newScoreArray);
+console.log("newScoreArray === scoreObj", newScoreArray === scoreObj);
+
+// pure function add
+const pureAddToScoreHistory = (array, score, cloneFunc) => {
+  const newArray = cloneFunc(array);
+  newArray.push(score);
+  return newArray;
+};
+
+const scoreArray = [1, 2, 3];
+
+const pureScoreHistory = pureAddToScoreHistory(scoreArray, 18, deepClone);
+console.log(pureScoreHistory);
