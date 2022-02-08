@@ -40,3 +40,37 @@ const addCustomer =
     console.log("Saving customer info...");
     return fn(...args);
   };
+
+const processOrder =
+  fn =>
+  (...args) => {
+    console.log(`Processing order ${args[0]}...`);
+    return fn(...args);
+  };
+
+let completeOrder = (...args) => {
+  console.log("Order complete:", args.toString());
+};
+
+completeOrder = processOrder(completeOrder);
+console.log(completeOrder);
+completeOrder = addCustomer(completeOrder);
+completeOrder(10000);
+console.log(completeOrder);
+
+const curry = fn => {
+  console.log(fn.length);
+
+  return (curried = (...args) => {
+    console.log(args.length);
+
+    if (fn.length !== args.length) {
+      return curried.bind(null, ...args);
+    }
+    return fn(...args);
+  });
+};
+
+const total = (a, b, c) => a + b + c;
+const curryTotal = curry(total);
+console.log("total:", total(1, 2, 3));
