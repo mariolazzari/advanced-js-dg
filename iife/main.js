@@ -78,3 +78,5 @@ const Game = (() => {
 
 Game.increment();
 console.log(Game.current());
+
+// injecting namespace
