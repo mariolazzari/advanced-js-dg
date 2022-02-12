@@ -72,3 +72,38 @@ console.log(fwd(pal3) === rev(pal3));
 const scoreObj = { home: 0, away: 0 };
 
 const shallowClone = obj => (Array.isArray(obj) ? [...obj] : { ...obj });
+
+const incrementHome = obj => {
+  obj.home += 1; // mutation
+  return obj;
+};
+
+const homeScore = pipe(shallowClone, incrementHome);
+
+console.log(homeScore(scoreObj));
+console.log(scoreObj);
+console.log(homeScore(scoreObj) === scoreObj);
+
+// currying
+let incrementHome2 = cloneFn => obj => {
+  const newObj = cloneFn(obj);
+  newObj.home += 1;
+  return newObj;
+};
+incrementHome2 = incrementHome2(shallowClone);
+
+const homeScoreB = pipe(incrementHome2);
+
+console.log(homeScoreB(scoreObj));
+console.log(scoreObj);
+
+// dependency
+const incrementHome3 = (obj, cloneFn) => {
+  const newObj = cloneFn(obj);
+  newObj.home += 1;
+  return newObj;
+};
+
+const homeScoreC = pipe(x => incrementHome3(x, shallowClone));
+console.log(homeScoreC(scoreObj));
+console.log(scoreObj);
